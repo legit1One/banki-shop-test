@@ -38,7 +38,6 @@ export default {
     name: 'ItemCard',
     data: () => ({
         loading: false,
-        cart: !localStorage.getItem('cart') ? []: JSON.parse(localStorage.getItem('cart')),
     }),
     props: {
         item: {
@@ -53,21 +52,20 @@ export default {
         purchaseItem() {
             this.loading = true
             setTimeout(() => {
-                const index = this.cart.findIndex(item => item.id === this.item.id)
+                const index = this.$parent.$parent.$data.cart.findIndex(item => item.id === this.item.id)
                 if(index === -1) {
-                    this.cart.push(this.item)
+                    this.$parent.$parent.$data.cart.push(this.item)
                 } else {
-                    this.cart.splice(index, 1)
+                    this.$parent.$parent.$data.cart.splice(index, 1)
                 }
 
-                localStorage.setItem('cart', JSON.stringify(this.cart))
                 this.loading = false
             }, 2000)
         }
     },
     computed: {
         isInCart() {
-            return this.cart.some(item => item.id === this.item.id)
+            return this.$parent.$parent.$data.cart.some(item => item.id === this.item.id)
         }
     }
 }

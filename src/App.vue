@@ -25,6 +25,7 @@ export default {
   data: () => ({
     search: '',
     itemToShow: null,
+    cart: !localStorage.getItem('cart') ? []: JSON.parse(localStorage.getItem('cart')),
     categories: [{
       title: 'Картины эпохи Возрождения',
       items: [
@@ -84,6 +85,11 @@ export default {
           })
         }
       }).filter(category => category.items.length)
+    }
+  },
+  watch: {
+    cart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart))
     }
   }
 }
